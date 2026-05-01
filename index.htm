@@ -1,1 +1,483 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Cosmica</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+    --bg-color: #ffffff;
+    --text-color: #1a1a1a;
+    --gold: #c5a059;
+    --nav-bg: rgba(255, 255, 255, 0.9);
+    --border-color: #e0e0e0;
+    --btn-text: #ffffff;
+    --btn-bg: #1a1a1a;
+}
+[data-theme="dark"] {
+    --bg-color: #0f1115;
+    --text-color: #f4f4f4;
+    --gold: #d4af37;
+    --nav-bg: rgba(15, 17, 21, 0.9);
+    --border-color: #333333;
+    --btn-text: #0f1115;
+    --btn-bg: #d4af37;
+}
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Playfair Display', 'Noto Serif SC', serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.4s ease, color 0.4s ease;
+    overflow-x: hidden;
+}
+a {
+    text-decoration: none;
+    color: inherit;
+    transition: color 0.3s ease;
+}
+a:hover {
+    color: var(--gold);
+}
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 40px;
+    background-color: var(--nav-bg);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border-color);
+    z-index: 1000;
+    box-sizing: border-box;
+}
+.logo-container img {
+    height: 50px;
+    border-radius: 4px;
+}
+nav {
+    display: flex;
+    gap: 30px;
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+.header-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+select {
+    background: transparent;
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    padding: 5px 10px;
+    font-family: inherit;
+    border-radius: 4px;
+    cursor: pointer;
+}
+select option {
+    background: var(--bg-color);
+    color: var(--text-color);
+}
+#theme-btn {
+    background: transparent;
+    border: 1px solid var(--text-color);
+    color: var(--text-color);
+    padding: 5px 15px;
+    font-family: inherit;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.3s;
+}
+#theme-btn:hover {
+    background: var(--text-color);
+    color: var(--bg-color);
+}
+.hero {
+    margin-top: 80px;
+    padding: 60px 20px;
+    text-align: center;
+}
+.hero img {
+    max-width: 90%;
+    width: 1000px;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+.hero p {
+    max-width: 800px;
+    margin: 40px auto;
+    font-size: 1.25rem;
+    line-height: 1.8;
+}
+.btn {
+    display: inline-block;
+    padding: 12px 30px;
+    background-color: var(--btn-bg);
+    color: var(--btn-text);
+    border: 1px solid var(--btn-bg);
+    border-radius: 4px;
+    font-size: 1.1rem;
+    transition: all 0.3s;
+}
+.btn:hover {
+    background-color: transparent;
+    color: var(--text-color);
+    border-color: var(--text-color);
+}
+.chef {
+    padding: 80px 20px;
+    text-align: center;
+    background-color: rgba(0,0,0,0.02);
+}
+[data-theme="dark"] .chef {
+    background-color: rgba(255,255,255,0.02);
+}
+.chef img {
+    max-width: 80%;
+    width: 400px;
+    border-radius: 50%;
+    margin-bottom: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+.chef h2 {
+    font-size: 2rem;
+    margin-bottom: 30px;
+    font-style: italic;
+}
+.explore {
+    padding: 80px 20px;
+    text-align: center;
+}
+.explore h2 {
+    font-size: 2.5rem;
+    margin-bottom: 50px;
+}
+.explore-grid {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+footer {
+    text-align: center;
+    padding: 40px 20px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+#modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: var(--bg-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.5s ease;
+}
+.modal-content {
+    text-align: center;
+}
+.modal-content h1 {
+    margin-bottom: 30px;
+    font-size: 2rem;
+}
+.lang-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+.lang-btn {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    padding: 10px 20px;
+    font-family: inherit;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+.lang-btn:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+}
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        padding: 15px;
+    }
+    nav {
+        margin: 15px 0;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .lang-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+</style>
+</head>
+<body>
+<div id="modal-overlay">
+    <div class="modal-content">
+        <h1>The Cosmica</h1>
+        <div class="lang-grid" id="modal-langs">
+        </div>
+    </div>
+</div>
+<header>
+    <div class="logo-container">
+        <img src="image_741e98.png" alt="The Cosmica Logo">
+    </div>
+    <nav>
+        <a href="https://uplgov.github.io/the-cosmica/menu1.htm" data-i18n="nav_improv">即兴发挥</a>
+        <a href="https://uplgov.github.io/the-cosmica/menu.htm" data-i18n="nav_legacy">The Cosmica传承</a>
+        <a href="https://uplgov.github.io/the-cosmica/bills.htm" data-i18n="nav_bills">收费细节</a>
+    </nav>
+    <div class="header-controls">
+        <select id="header-lang"></select>
+        <button id="theme-btn" data-i18n="theme">THEME</button>
+    </div>
+</header>
+<main>
+    <section class="hero">
+        <img src="http://uplgov.github.io/the-cosmica/images/Copilot_29890430_135119.png" alt="The Cosmica Dish">
+        <p data-i18n="hero_desc">自2667年起,当第一缕黄油与迷迭香的香气飘散在这条街巷,The Cosmica便开始了它对“极致味觉”的不懈探索。三百五十二载光阴荏苒,我们并非仅仅在烹饪食物,而是在用匠心复刻时间。</p>
+        <a href="https://uplgov.github.io/the-cosmica/story.htm" class="btn" data-i18n="hero_btn">了解永恒的传奇故事</a>
+    </section>
+    <section class="chef">
+        <img src="https://uplgov.github.io/the-cosmica/images/Arjun_Reddy.png" alt="Chef Arjun Reddy">
+        <h2 data-i18n="chef_quote">食材从不撒谎。</h2>
+        <a href="https://uplgov.github.io/the-cosmica/chief.htm" class="btn" data-i18n="chef_btn">了解食材守护者</a>
+    </section>
+    <section class="explore">
+        <h2 data-i18n="explore_title">开始你的探索</h2>
+        <div class="explore-grid">
+            <a href="https://uplgov.github.io/the-cosmica/menu.htm" class="btn" data-i18n="explore_btn1">The Cosmica传承</a>
+            <a href="https://uplgov.github.io/the-cosmica/menu1.htm" class="btn" data-i18n="explore_btn2">即兴发挥</a>
+            <a href="https://uplgov.github.io/the-cosmica/story1.htm" class="btn" data-i18n="explore_btn3">了解食材</a>
+        </div>
+    </section>
+</main>
+<footer>
+    <div class="footer-links">
+        <a href="https://uplgov.github.io/the-cosmica/privacy.htm" data-i18n="footer_privacy">隐私细节</a>
+        <a href="https://uplgov.github.io/the-cosmica/licence.htm">Licence</a>
+        <a href="https://uplgov.github.io/sixside/police/">Sixside Police Department</a>
+    </div>
+    <p>© 2667-3019 The Cosmica Cooperation (Sixside)</p>
+</footer>
+<script>
+const i18n = {
+    "zh-wy": {
+        name: "華夏文言",
+        nav_improv: "随心成膳",
+        nav_legacy: "Cosmica之传",
+        nav_bills: "计赀之细",
+        theme: "昼夜",
+        hero_desc: "自二六六七年始，黄油与迷迭香之气初漫于街巷，The Cosmica即求极致之味而不辍。三百五十二载忽然而已，吾辈非惟烹饪，实乃以匠心雕琢时光。",
+        hero_btn: "阅永恒之传奇",
+        chef_quote: "食材弗欺也。",
+        chef_btn: "识食材之御者",
+        explore_title: "启程索骥",
+        explore_btn1: "Cosmica之传",
+        explore_btn2: "随心成膳",
+        explore_btn3: "识食材",
+        footer_privacy: "私密之则"
+    },
+    "zh-cn": {
+        name: "简体白话",
+        nav_improv: "即兴发挥",
+        nav_legacy: "The Cosmica传承",
+        nav_bills: "收费细节",
+        theme: "THEME",
+        hero_desc: "自2667年起,当第一缕黄油与迷迭香的香气飘散在这条街巷,The Cosmica便开始了它对“极致味觉”的不懈探索。三百五十二载光阴荏苒,我们并非仅仅在烹饪食物,而是在用匠心复刻时间。",
+        hero_btn: "了解永恒的传奇故事",
+        chef_quote: "食材从不撒谎。",
+        chef_btn: "了解食材守护者",
+        explore_title: "开始你的探索",
+        explore_btn1: "The Cosmica传承",
+        explore_btn2: "即兴发挥",
+        explore_btn3: "了解食材",
+        footer_privacy: "隐私细节"
+    },
+    "en-gb": {
+        name: "英式英语",
+        nav_improv: "Improvisation",
+        nav_legacy: "The Cosmica Legacy",
+        nav_bills: "Billing Details",
+        theme: "THEME",
+        hero_desc: "Since 2667, when the first wisp of butter and rosemary aroma drifted through these streets, The Cosmica began its relentless pursuit of 'ultimate taste'. 352 years have flown by; we are not merely cooking food, but replicating time with craftsmanship.",
+        hero_btn: "Discover the Eternal Legend",
+        chef_quote: "Ingredients never lie.",
+        chef_btn: "Meet the Guardian of Ingredients",
+        explore_title: "Begin Your Exploration",
+        explore_btn1: "The Cosmica Legacy",
+        explore_btn2: "Improvisation",
+        explore_btn3: "Understand the Ingredients",
+        footer_privacy: "Privacy Details"
+    },
+    "de": {
+        name: "德语",
+        nav_improv: "Improvisation",
+        nav_legacy: "Das Cosmica-Erbe",
+        nav_bills: "Abrechnung",
+        theme: "THEMA",
+        hero_desc: "Seit 2667, als der erste Hauch von Butter und Rosmarin durch diese Straßen wehte, begann The Cosmica sein unermüdliches Streben nach dem 'ultimativen Geschmack'. 352 Jahre sind vergangen; wir kochen nicht nur, sondern replizieren Zeit mit Handwerkskunst.",
+        hero_btn: "Entdecken Sie die ewige Legende",
+        chef_quote: "Zutaten lügen nie.",
+        chef_btn: "Lernen Sie den Wächter kennen",
+        explore_title: "Beginnen Sie Ihre Erkundung",
+        explore_btn1: "Das Cosmica-Erbe",
+        explore_btn2: "Improvisation",
+        explore_btn3: "Verstehen Sie die Zutaten",
+        footer_privacy: "Datenschutz"
+    },
+    "ru": {
+        name: "俄语",
+        nav_improv: "Импровизация",
+        nav_legacy: "Наследие Cosmica",
+        nav_bills: "Детали оплаты",
+        theme: "ТЕМА",
+        hero_desc: "С 2667 года, когда первый аромат сливочного масла и розмарина пронесся по этим улицам, The Cosmica начала свою неустанную погоню за 'идеальным вкусом'. Прошло 352 года; мы не просто готовим, мы воспроизводим время с мастерством.",
+        hero_btn: "Откройте вечную легенду",
+        chef_quote: "Ингредиенты не лгут.",
+        chef_btn: "Встретьте хранителя ингредиентов",
+        explore_title: "Начните исследование",
+        explore_btn1: "Наследие Cosmica",
+        explore_btn2: "Импровизация",
+        explore_btn3: "Понять ингредиенты",
+        footer_privacy: "Конфиденциальность"
+    },
+    "fr": {
+        name: "法语",
+        nav_improv: "Improvisation",
+        nav_legacy: "L'Héritage Cosmica",
+        nav_bills: "Détails de Facturation",
+        theme: "THÈME",
+        hero_desc: "Depuis 2667, lorsque la première volute de beurre et de romarin a flotté dans ces rues, The Cosmica a commencé sa quête incessante du 'goût ultime'. 352 ans se sont écoulés ; nous ne faisons pas que cuisiner, nous reproduisons le temps avec savoir-faire.",
+        hero_btn: "Découvrez la Légende Éternelle",
+        chef_quote: "Les ingrédients ne mentent jamais.",
+        chef_btn: "Découvrez le Gardien",
+        explore_title: "Commencez Votre Exploration",
+        explore_btn1: "L'Héritage Cosmica",
+        explore_btn2: "Improvisation",
+        explore_btn3: "Comprendre les Ingrédients",
+        footer_privacy: "Confidentialité"
+    },
+    "it": {
+        name: "意大利语",
+        nav_improv: "Improvvisazione",
+        nav_legacy: "L'Eredità Cosmica",
+        nav_bills: "Dettagli Fatturazione",
+        theme: "TEMA",
+        hero_desc: "Dal 2667, quando il primo profumo di burro e rosmarino si diffuse in queste strade, The Cosmica iniziò la sua incessante ricerca del 'gusto supremo'. Sono passati 352 anni; non stiamo solo cucinando, stiamo replicando il tempo con maestria.",
+        hero_btn: "Scopri la Leggenda Eterna",
+        chef_quote: "Gli ingredienti non mentono mai.",
+        chef_btn: "Incontra il Custode",
+        explore_title: "Inizia la Tua Esplorazione",
+        explore_btn1: "L'Eredità Cosmica",
+        explore_btn2: "Improvvisazione",
+        explore_btn3: "Comprendi gli Ingredienti",
+        footer_privacy: "Privacy"
+    },
+    "hi": {
+        name: "印地语",
+        nav_improv: "तात्कालिकता",
+        nav_legacy: "कॉस्मिका विरासत",
+        nav_bills: "बिलिंग विवरण",
+        theme: "विषय",
+        hero_desc: "2667 से, जब मक्खन और रोज़मेरी की पहली सुगंध इन सड़कों पर फैली, कॉस्मिका ने 'अंतिम स्वाद' की अपनी निरंतर खोज शुरू की। 352 साल बीत चुके हैं; हम केवल खाना नहीं बना रहे हैं, बल्कि शिल्प कौशल के साथ समय को दोहरा रहे हैं।",
+        hero_btn: "शाश्वत किंवदंती की खोज करें",
+        chef_quote: "सामग्री कभी झूठ नहीं बोलती।",
+        chef_btn: "सामग्री के संरक्षक से मिलें",
+        explore_title: "अपनी खोज शुरू करें",
+        explore_btn1: "कॉस्मिका विरासत",
+        explore_btn2: "तात्कालिकता",
+        explore_btn3: "सामग्री को समझें",
+        footer_privacy: "गोपनीयता विवरण"
+    },
+    "es": {
+        name: "西班牙语",
+        nav_improv: "Improvisación",
+        nav_legacy: "El Legado de Cosmica",
+        nav_bills: "Detalles de Facturación",
+        theme: "TEMA",
+        hero_desc: "Desde 2667, cuando el primer aroma de mantequilla y romero flotó por estas calles, The Cosmica comenzó su incesante búsqueda del 'sabor supremo'. Han pasado 352 años; no solo cocinamos, replicamos el tiempo con artesanía.",
+        hero_btn: "Descubre la Leyenda Eterna",
+        chef_quote: "Los ingredientes nunca mienten.",
+        chef_btn: "Conoce al Guardián",
+        explore_title: "Comienza tu Exploración",
+        explore_btn1: "El Legado de Cosmica",
+        explore_btn2: "Improvisación",
+        explore_btn3: "Entender los Ingredientes",
+        footer_privacy: "Privacidad"
+    }
+};
 
+const modalLangs = document.getElementById('modal-langs');
+const headerLang = document.getElementById('header-lang');
+const modalOverlay = document.getElementById('modal-overlay');
+const themeBtn = document.getElementById('theme-btn');
+
+Object.keys(i18n).forEach(key => {
+    const btn = document.createElement('button');
+    btn.className = 'lang-btn';
+    btn.textContent = i18n[key].name;
+    btn.onclick = () => setLanguage(key);
+    modalLangs.appendChild(btn);
+
+    const option = document.createElement('option');
+    option.value = key;
+    option.textContent = i18n[key].name;
+    if (key === 'zh-cn') option.selected = true;
+    headerLang.appendChild(option);
+});
+
+function setLanguage(lang) {
+    const t = i18n[lang];
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (t[key]) el.textContent = t[key];
+    });
+    headerLang.value = lang;
+    modalOverlay.style.opacity = '0';
+    setTimeout(() => {
+        modalOverlay.style.display = 'none';
+        document.body.style.overflowY = 'auto';
+    }, 500);
+}
+
+headerLang.addEventListener('change', (e) => {
+    setLanguage(e.target.value);
+});
+
+let isDark = false;
+themeBtn.addEventListener('click', () => {
+    isDark = !isDark;
+    if (isDark) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+    } else {
+        document.documentElement.removeAttribute('data-theme');
+    }
+});
+
+document.body.style.overflowY = 'hidden';
+</script>
+</body>
+</html>
